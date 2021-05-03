@@ -16,5 +16,7 @@ bot.listen('/', process.env.PORT, () => {
 })
 
 bot.on('message', event => {
-  console.log(event)
+  if (event.message.type === 'text') {
+    event.reply(event.message.text)
+  }
 })
