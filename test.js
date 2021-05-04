@@ -16,6 +16,8 @@ const main = async event => {
 
       // 抓全部 a 標籤裡的名稱
       // console.log($(this).find('.theme-name').text())
+      const name = $(this).find('.theme-name').text()
+      console.log(name)
 
       // 抓全部 a 標籤裡的日期
       // console.log($(this).find('.theme-time').text())
@@ -24,7 +26,7 @@ const main = async event => {
       $1('.container-player').each(function () {
         // console.log($1(this).find('.data_type').find('li').eq(0).text())
         // console.log($1(this).find('.data_type').find('li').eq(4).text())
-        console.log($1(this).find('.ACG-box').text())
+        // console.log($1(this).find('.ACG-box').text())
       })
     })
   } catch (error) {

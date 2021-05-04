@@ -2,7 +2,7 @@
 import linebot from 'linebot'
 import dotenv from 'dotenv'
 import axios from 'axios'
-// import cheerio from 'cheerio'
+import cheerio from 'cheerio'
 // import js from 'js'
 
 // 讀套件讀取 .env 檔案
@@ -23,24 +23,41 @@ bot.listen('/', process.env.PORT, () => {
 // 機器人要做的事情
 bot.on('message', async event => {
   if (event.message.type === 'text') {
-    // 你傳什麼文字機器人就回傳什麼文字
-    // event.reply(event.message.text)
-
     try {
-      // 抓資料
-      const response = await axios.get('https://datacenter.taichung.gov.tw/swagger/OpenData/f116d1db-56f7-4984-bad8-c82e383765c0')
+      // 抓搜尋結果的網站
+      const response = await axios.get('https://ani.gamer.com.tw/search.php?kw=%E5%B7%A8%E4%BA%BA')
+      const $ = cheerio.load(response.data)
 
-      const data = response.data.filter(data => {
-        return data['花種'] === event.message.text
+      // .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部
+      $('.old_list .theme-list-block a').each(async function () {
+        // 網址
+        console.log('https://ani.gamer.com.tw/' + $(this).attr('href'))
+
+        // 抓全部 a 標籤裡圖片的 src 屬性
+        console.log($(this).find('.theme-img').attr('src'))
+
+        // 抓全部 a 標籤裡的名稱
+        console.log($(this).find('.theme-name').text())
+
+        // 抓全部 a 標籤裡的日期
+        console.log($(this).find('.theme-time').text())
+
+        const response1 = await axios.get('https://ani.gamer.com.tw/' + $(this).attr('href'))
+        const $1 = cheerio.load(response1.data)
+        $1('.container-player').each(function () {
+          console.log($1(this).find('.data_type').find('li').eq(0).text())
+          console.log($1(this).find('.data_type').find('li').eq(4).text())
+          console.log($1(this).find('.ACG-box'))
+        })
+        const date = $(this).find('.theme-time').text()
+
+        let reply = ''
+
+        reply += `作品名稱:${date}`
+        event.reply(reply)
       })
-
-      // line 機器人回傳東西
-      let reply = ''
-      for (const d of data) {
-        reply += `地點:${d['地點']}\n地址:${d['地址']} \n觀賞時期:${d['觀賞時期']}\n\n`
-      }
-      event.reply(reply)
     } catch (error) {
+      console.log(error)
       event.reply('發生錯誤')
     }
   }

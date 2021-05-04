@@ -3,18 +3,18 @@
   "name": "20210503",
   "version": "1.0.0",
   "description": "20210503 LINE",
-  "main": "line.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon line.js",
-    "test": "node test.js",
-    "line": "node line.js"
+    "dev": "nodemon index.js",
+    "test": "node test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.6",
     "dotenv": "^8.2.0",
     "linebot": "^1.6.1"
   },
@@ -25,5 +25,13 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
     "nodemon": "^2.0.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renly261/20210503-line.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renly261/20210503-line/issues"
+  },
+  "homepage": "https://github.com/renly261/20210503-line#readme"
 }
