@@ -2,21 +2,21 @@
   "type": "module",
   "name": "20210503",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "20210503 LINE",
+  "main": "line.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon line.js",
+    "test": "node test.js",
+    "line": "node line.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "cheerio": "^1.0.0-rc.6",
     "dotenv": "^8.2.0",
-    "linebot": "^1.6.1",
-    "node-schedule": "^2.0.0"
+    "linebot": "^1.6.1"
   },
   "devDependencies": {
     "eslint": "^7.25.0",

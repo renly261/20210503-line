@@ -1,8 +1,11 @@
+// 引用套件
 import linebot from 'linebot'
 import dotenv from 'dotenv'
-import fs from 'fs'
+import axios from 'axios'
+// import cheerio from 'cheerio'
+// import js from 'js'
 
-// 讓套件讀取 .env 檔案
+// 讀套件讀取 .env 檔案
 // 讀取後可以用 process.env.變數 使用
 dotenv.config()
 
@@ -12,173 +15,33 @@ const bot = linebot({
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 })
 
+// 監聽進來 3000 的請求 後方可以接 function
 bot.listen('/', process.env.PORT, () => {
   console.log('機器人啟動')
 })
 
-const flex = {
-  type: 'bubble',
-  hero: {
-    type: 'image',
-    url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
-    size: 'full',
-    aspectRatio: '20:13',
-    aspectMode: 'cover',
-    action: {
-      type: 'uri',
-      uri: 'http://linecorp.com/'
-    }
-  },
-  body: {
-    type: 'box',
-    layout: 'vertical',
-    contents: [
-      {
-        type: 'text',
-        text: 'Brown Cafe',
-        weight: 'bold',
-        size: 'xl'
-      },
-      {
-        type: 'box',
-        layout: 'baseline',
-        margin: 'md',
-        contents: [
-          {
-            type: 'icon',
-            size: 'sm',
-            url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png'
-          },
-          {
-            type: 'icon',
-            size: 'sm',
-            url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png'
-          },
-          {
-            type: 'icon',
-            size: 'sm',
-            url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png'
-          },
-          {
-            type: 'icon',
-            size: 'sm',
-            url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png'
-          },
-          {
-            type: 'icon',
-            size: 'sm',
-            url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png'
-          },
-          {
-            type: 'text',
-            text: '4.0',
-            size: 'sm',
-            color: '#999999',
-            margin: 'md',
-            flex: 0
-          }
-        ]
-      },
-      {
-        type: 'box',
-        layout: 'vertical',
-        margin: 'lg',
-        spacing: 'sm',
-        contents: [
-          {
-            type: 'box',
-            layout: 'baseline',
-            spacing: 'sm',
-            contents: [
-              {
-                type: 'text',
-                text: 'Place',
-                color: '#aaaaaa',
-                size: 'sm',
-                flex: 1
-              },
-              {
-                type: 'text',
-                text: 'Miraina Tower, 4-1-6 Shinjuku, Tokyo',
-                wrap: true,
-                color: '#666666',
-                size: 'sm',
-                flex: 5
-              }
-            ]
-          },
-          {
-            type: 'box',
-            layout: 'baseline',
-            spacing: 'sm',
-            contents: [
-              {
-                type: 'text',
-                text: 'Time',
-                color: '#aaaaaa',
-                size: 'sm',
-                flex: 1
-              },
-              {
-                type: 'text',
-                text: '10:00 - 23:00',
-                wrap: true,
-                color: '#666666',
-                size: 'sm',
-                flex: 5
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  footer: {
-    type: 'box',
-    layout: 'vertical',
-    spacing: 'sm',
-    contents: [
-      {
-        type: 'button',
-        style: 'link',
-        height: 'sm',
-        action: {
-          type: 'uri',
-          label: 'CALL',
-          uri: 'https://linecorp.com'
-        }
-      },
-      {
-        type: 'button',
-        style: 'link',
-        height: 'sm',
-        action: {
-          type: 'uri',
-          label: 'WEBSITE',
-          uri: 'https://linecorp.com'
-        }
-      },
-      {
-        type: 'spacer',
-        size: 'sm'
-      }
-    ],
-    flex: 0
-  }
-}
-
+// 機器人要做的事情
 bot.on('message', async event => {
   if (event.message.type === 'text') {
-    const message = {
-      type: 'flex',
-      altText: '這是 flex',
-      contents: {
-        type: 'carousel',
-        contents: [flex]
-      }
-    }
+    // 你傳什麼文字機器人就回傳什麼文字
+    // event.reply(event.message.text)
 
-    fs.writeFileSync('aaa.json', JSON.stringify(message, null, 2))
-    event.reply(message)
+    try {
+      // 抓資料
+      const response = await axios.get('https://datacenter.taichung.gov.tw/swagger/OpenData/f116d1db-56f7-4984-bad8-c82e383765c0')
+
+      const data = response.data.filter(data => {
+        return data['花種'] === event.message.text
+      })
+
+      // line 機器人回傳東西
+      let reply = ''
+      for (const d of data) {
+        reply += `地點:${d['地點']}\n地址:${d['地址']} \n觀賞時期:${d['觀賞時期']}\n\n`
+      }
+      event.reply(reply)
+    } catch (error) {
+      event.reply('發生錯誤')
+    }
   }
 })

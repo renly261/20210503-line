@@ -2,7 +2,7 @@
   "type": "module",
   "name": "20210503",
   "version": "1.0.0",
-  "description": "20210503 LINE",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -13,8 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.6",
     "dotenv": "^8.2.0",
-    "linebot": "^1.6.1"
+    "linebot": "^1.6.1",
+    "node-schedule": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^7.25.0",
