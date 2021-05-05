@@ -25,9 +25,9 @@ bot.on('message', async event => {
   if (event.message.type === 'text') {
     try {
       // 抓搜尋結果的網站
-      const response = await axios.get('https://ani.gamer.com.tw/search.php?kw=%E5%B7%A8%E4%BA%BA')
+      const response = await axios.get(`https://ani.gamer.com.tw/search.php?kw=${encodeURI(event.message.text)}`)
       const $ = cheerio.load(response.data)
-
+      let reply = ''
       // .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部
       $('.old_list .theme-list-block a').each(async function () {
         // 網址
@@ -44,16 +44,13 @@ bot.on('message', async event => {
 
         const response1 = await axios.get('https://ani.gamer.com.tw/' + $(this).attr('href'))
         const $1 = cheerio.load(response1.data)
+
         $1('.container-player').each(function () {
-          console.log($1(this).find('.data_type').find('li').eq(0).text())
-          console.log($1(this).find('.data_type').find('li').eq(4).text())
+          console.log($1(this).find('.data_type li').eq(0).text())
+          reply += $1(this).find('.data_type li').eq(0).text()
+          console.log($1(this).find('.data_type li').eq(4).text())
           console.log($1(this).find('.ACG-box'))
         })
-        const date = $(this).find('.theme-time').text()
-
-        let reply = ''
-
-        reply += `作品名稱:${date}`
         event.reply(reply)
       })
     } catch (error) {
