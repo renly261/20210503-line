@@ -28,11 +28,7 @@ bot.on('message', async event => {
       // 抓搜尋結果的網站
       const response = await axios.get(`https://ani.gamer.com.tw/search.php?kw=${encodeURI(event.message.text)}`)
       const $ = cheerio.load(response.data)
-<<<<<<< Updated upstream
       let reply = ''
-=======
-      // let reply = ''
->>>>>>> Stashed changes
       // .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部
       $('.old_list .theme-list-block a').each(async function () {
         // 網址
@@ -55,23 +51,12 @@ bot.on('message', async event => {
         const $1 = cheerio.load(response1.data)
 
         $1('.container-player').each(function () {
-<<<<<<< Updated upstream
           console.log($1(this).find('.data_type li').eq(0).text())
           reply += $1(this).find('.data_type li').eq(0).text()
           console.log($1(this).find('.data_type li').eq(4).text())
           console.log($1(this).find('.ACG-box'))
         })
         event.reply(reply)
-=======
-          // 作品類型
-          console.log($1(this).find('.data_type').find('li').eq(0).text())
-          // 廠商
-          console.log($1(this).find('.data_type').find('li').eq(4).text())
-          // 評分
-          console.log($1(this).find('.ACG-box'))
-        })
-        // event.reply(reply)
->>>>>>> Stashed changes
       })
     } catch (error) {
       console.log(error)
