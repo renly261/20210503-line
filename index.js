@@ -85,6 +85,7 @@ bot.on('message', async event => {
       }
 
       // 作品類型 消除陣列裡的空白值
+      // 找陣列中有值的才 retrun 出來
       arr5 = arr5.filter(function (a) {
         return a.length > 0
       })
