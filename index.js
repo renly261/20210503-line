@@ -77,6 +77,7 @@ bot.on('message', async event => {
           arr6.push($(this).find('.data_type li').eq(4).text())
           // 動畫評分
           // console.log($(this).find('.data_acgbox'))
+          // 因為 span 包在 div 裡面 用選擇器抓不到 所以先 remove div 的下一層 span 在抓 div
           $('.ACG-score').children().remove()
           arr7.push($(this).find('.ACG-score').text())
         })
