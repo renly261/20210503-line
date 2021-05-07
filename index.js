@@ -41,7 +41,7 @@ bot.on('message', async event => {
       const arr4 = []
       const arr5 = []
       const arr6 = []
-      const arr7 = []
+      let arr7 = []
 
       //   第一層 搜尋結果的網站的資料 .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部-----------------------------------
       $('.old_list .theme-list-block a').each(function () {
@@ -83,6 +83,10 @@ bot.on('message', async event => {
           arr7.push($(this).find('.ACG-score').text())
         })
       }
+      // 動畫評分 消除陣列裡的空白值
+      arr7 = arr7.filter(function (a) {
+        return a.length > 0
+      })
 
       const flex = {
         type: 'flex',
