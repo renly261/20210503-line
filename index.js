@@ -39,8 +39,8 @@ bot.on('message', async event => {
       const arr2 = []
       const arr3 = []
       const arr4 = []
-      const arr5 = []
-      const arr6 = []
+      let arr5 = []
+      let arr6 = []
       let arr7 = []
 
       //   第一層 搜尋結果的網站的資料 .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部-----------------------------------
@@ -83,6 +83,17 @@ bot.on('message', async event => {
           arr7.push($(this).find('.ACG-score').text())
         })
       }
+
+      // 作品類型 消除陣列裡的空白值
+      arr5 = arr5.filter(function (a) {
+        return a.length > 0
+      })
+
+      // 製作廠商 消除陣列裡的空白值
+      arr6 = arr6.filter(function (a) {
+        return a.length > 0
+      })
+
       // 動畫評分 消除陣列裡的空白值
       arr7 = arr7.filter(function (a) {
         return a.length > 0
@@ -106,7 +117,7 @@ bot.on('message', async event => {
             url: `${arr2[i]}`,
             size: 'full',
             aspectMode: 'cover',
-            aspectRatio: '320:213',
+            aspectRatio: '1:1',
             // 點擊圖片跳到該動畫瘋網址
             action: {
               type: 'uri',
