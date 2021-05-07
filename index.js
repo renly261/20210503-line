@@ -32,9 +32,7 @@ bot.on('message', async event => {
       // 第二層 搜尋結果裡各別的網址陣列 用陣列存著的話就可以把 function 裡的資料帶出外面
       const links = []
 
-      // 資料 陣列
-
-      // 用迴圈跑陣列的所有資料
+      // 用陣列存取 function 裡的資料
       const arr1 = []
       const arr2 = []
       const arr3 = []
