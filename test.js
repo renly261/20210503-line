@@ -6,11 +6,13 @@ const main = async event => {
     // 抓搜尋結果的網站
     const response = await axios.get('https://ani.gamer.com.tw/search.php?kw=%E5%B7%A8%E4%BA%BA')
     const $ = cheerio.load(response.data)
+    const arr = []
+    // const reply = ''
 
     // .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部
     $('.old_list .theme-list-block a').each(async function () {
       // 網址
-      console.log('https://ani.gamer.com.tw/' + $(this).attr('href') + '\n')
+      // console.log('https://ani.gamer.com.tw/' + $(this).attr('href') + '\n')
 
       // 抓全部 a 標籤裡圖片的 src 屬性
       // console.log($(this).find('.theme-img').attr('src') + ',')
@@ -23,8 +25,12 @@ const main = async event => {
       const response1 = await axios.get('https://ani.gamer.com.tw/' + $(this).attr('href'))
       const $1 = cheerio.load(response1.data)
       $1('.container-player').each(async function () {
-        console.log($1(this, '.anime-option').find('.data_type li').eq(0).text())
-        // console.log($1(this).find('.ACG-box').text())
+        // console.log($1(this, '.anime-option').find('.data_type li').eq(0).text())
+        // console.log($1(this).find('.ACG-score').text())
+        $1('.ACG-score').children().remove()
+
+        console.log($1('.ACG-score').text())
+        arr.push($1('.ACG-score').text())
       })
     })
   } catch (error) {

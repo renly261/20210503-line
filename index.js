@@ -35,29 +35,30 @@ bot.on('message', async event => {
       // 資料 陣列
 
       // 用迴圈跑陣列的所有資料
-      // let reply1 = ''
-      //   let reply2 = ''
-      //   let reply3 = ''
-      //   let reply4 = ''
-      //   let reply5 = ''
+      const arr1 = []
+      const arr2 = []
+      const arr3 = []
+      const arr4 = []
+      const arr5 = []
+      const arr6 = []
+      const arr7 = []
 
       //   第一層 搜尋結果的網站的資料 .old_list 裡面的 .theme-list-block 裡面的 a 標籤 全部-----------------------------------
       $('.old_list .theme-list-block a').each(function () {
         // 搜尋結果的每個動畫網址 抓全部 a 標籤裡圖片的 href 屬性
         // console.log('https://ani.gamer.com.tw/' + $(this).attr('href'))
-
+        arr1.push('https://ani.gamer.com.tw/' + $(this).attr('href'))
         // 搜尋結果的每個動畫圖片 抓全部 a 標籤裡圖片的 src 屬性
         // console.log($(this).find('.theme-img').attr('src'))
-        // arr1.push($(this).find('.theme-img').attr('src'))
-        // reply1 += $(this).find('.theme-img').attr('src') + '\n'
+        arr2.push($(this).find('.theme-img').attr('src'))
         // 搜尋結果的每個動畫名稱 抓全部 a 標籤裡的名稱
         // console.log($(this).find('.theme-name').text())
-        // arr2.push($(this).find('.theme-name').text())
-        // reply2 += $(this).find('.theme-name').text() + '\n'
+        arr3.push($(this).find('.theme-name').text())
+
         // 搜尋結果的每個動畫日期 抓全部 a 標籤裡的日期
         // console.log($(this).find('.theme-time').text())
-        // arr3.push($(this).find('.theme-time').text())
-        // reply3 += $(this).find('.theme-time').text() + '\n'
+        arr4.push($(this).find('.theme-time').text())
+
         // 抓第一層搜尋結果的每個動畫網址 塞進 links 的空陣列
         links.push('https://ani.gamer.com.tw/' + $(this).attr('href'))
       })
@@ -72,24 +73,115 @@ bot.on('message', async event => {
         $('.container-player').each(function () {
           // 作品類型
           // console.log($(this).find('.data_type li').eq(0).text())
-          //   reply4 += $(this).find('.data_type li').eq(0).text() + '\n'
+          arr5.push($(this).find('.data_type li').eq(0).text())
           // 製作廠商
           // console.log($(this).find('.data_type li').eq(4).text())
-          //   reply5 += $(this).find('.data_type li').eq(4).text() + '\n'
+          arr6.push($(this).find('.data_type li').eq(4).text())
           // 動畫評分
           // console.log($(this).find('.data_acgbox'))
+          $('.ACG-score').children().remove()
+          arr7.push($(this).find('.ACG-score').text())
         })
       }
-      const reply = {
-        type: 'text',
-        text: 'Hello, I am Cony!!',
-        sender: {
-          name: 'Cony',
-          iconUrl: 'https://line.me/conyprof'
+
+      const flex = {
+        type: 'flex',
+        altText: '這是 flex',
+        contents: {
+          type: 'carousel',
+          contents: []
         }
       }
-      event.reply(reply)
-      console.log(reply)
+      for (let i = 0; i < arr1.length; i++) {
+        flex.contents.contents.push({
+          // 動畫圖片
+          type: 'bubble',
+          size: 'micro',
+          hero: {
+            type: 'image',
+            url: `${arr2[i]}`,
+            size: 'full',
+            aspectMode: 'cover',
+            aspectRatio: '320:213',
+            // 點擊圖片跳到該動畫瘋網址
+            action: {
+              type: 'uri',
+              uri: `${arr1[i]}`
+            }
+          },
+          body: {
+            // 動畫名稱
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: `${arr3[i]}`,
+                weight: 'bold',
+                size: 'sm',
+                wrap: true
+              },
+              // 動畫評分
+              {
+                type: 'box',
+                layout: 'vertical',
+                spacing: 'sm',
+                contents: [
+                  {
+                    type: 'box',
+                    layout: 'baseline',
+                    contents: [
+                      {
+                        type: 'icon',
+                        url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/restaurant_regular_32.png'
+                      },
+                      {
+                        type: 'text',
+                        text: `${arr7[i]}`,
+                        weight: 'bold',
+                        margin: 'sm'
+                      },
+                      {
+                        type: 'text',
+                        text: '400kcl',
+                        size: 'sm',
+                        align: 'end',
+                        color: '#aaaaaa'
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                // 動畫年份
+                type: 'box',
+                layout: 'vertical',
+                contents: [
+                  {
+                    type: 'box',
+                    layout: 'baseline',
+                    spacing: 'sm',
+                    contents: [
+                      {
+                        type: 'text',
+                        text: `${arr4[i]}`,
+                        wrap: true,
+                        color: '#8c8c8c',
+                        size: 'xs',
+                        flex: 5
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            spacing: 'sm',
+            paddingAll: '13px'
+          }
+        })
+      }
+      event.reply(flex)
+      console.log(arr7)
     } catch (error) {
       event.reply('查不到')
     }
