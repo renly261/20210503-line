@@ -46,6 +46,7 @@ bot.on('message', async event => {
         // 搜尋結果的每個動畫網址 抓全部 a 標籤裡圖片的 href 屬性
         // console.log('https://ani.gamer.com.tw/' + $(this).attr('href'))
         arr1.push('https://ani.gamer.com.tw/' + $(this).attr('href'))
+
         // 搜尋結果的每個動畫圖片 抓全部 a 標籤裡圖片的 src 屬性
         // console.log($(this).find('.theme-img').attr('src'))
         arr2.push($(this).find('.theme-img').attr('src'))
@@ -67,14 +68,17 @@ bot.on('message', async event => {
         //  用迴圈跑第一層第一層搜尋結果的每個動畫網址 再去抓資料
         const response = await axios.get(link)
         $ = cheerio.load(response.data)
+
         // 第二層 搜尋結果的每個動畫資料 .container-player裡的全部--------------------------------------------------------
         $('.container-player').each(function () {
           // 作品類型
           // console.log($(this).find('.data_type li').eq(0).text())
           arr5.push($(this).find('.data_type li').eq(0).text())
+
           // 製作廠商
           // console.log($(this).find('.data_type li').eq(4).text())
           arr6.push($(this).find('.data_type li').eq(4).text())
+
           // 動畫評分
           // console.log($(this).find('.data_acgbox'))
           // 因為 span 包在 div 裡面 用選擇器抓不到 所以先 remove div 的下一層 span 在抓 div
@@ -99,6 +103,7 @@ bot.on('message', async event => {
         return a.length > 0
       })
 
+      // 使用 line flex message 的模板
       const flex = {
         type: 'flex',
         altText: '這是 flex',
@@ -107,6 +112,8 @@ bot.on('message', async event => {
           contents: []
         }
       }
+
+      // 跑迴圈將網站抓出來的資料資料陣列 push 進 flex message 裡面
       for (let i = 0; i < arr1.length; i++) {
         flex.contents.contents.push({
           // 動畫圖片
@@ -124,8 +131,9 @@ bot.on('message', async event => {
               uri: `${arr1[i]}`
             }
           },
+
+          // 動畫名稱
           body: {
-            // 動畫名稱
             type: 'box',
             layout: 'vertical',
             contents: [
@@ -136,6 +144,7 @@ bot.on('message', async event => {
                 size: 'sm',
                 wrap: true
               },
+
               // 動畫評分
               {
                 type: 'box',
@@ -167,8 +176,9 @@ bot.on('message', async event => {
                   }
                 ]
               },
+
+              // 動畫年份
               {
-                // 動畫年份
                 type: 'box',
                 layout: 'vertical',
                 contents: [
@@ -195,8 +205,12 @@ bot.on('message', async event => {
           }
         })
       }
+
+      // linebot 回傳的東西
       event.reply(flex)
       console.log(arr7)
+
+      // 發生錯誤要回傳的東西
     } catch (error) {
       event.reply('查不到')
     }
