@@ -8,7 +8,6 @@ const main = async event => {
     let $ = cheerio.load(response.data)
     const arr = []
     const links = []
-
     $('.old_list .theme-list-block a').each(function () {
       // 網址
       // console.log('https://ani.gamer.com.tw/' + $(this).attr('href'))
@@ -40,46 +39,7 @@ const main = async event => {
         arr.push(score)
       })
     }
-
-    const response1 = await axios.get('https://ani.gamer.com.tw/')
-    let $1 = cheerio.load(response1.data)
-    const links1 = []
-
-    $1('.newanime-block .new-count-1 .anime-block a').each(function () {
-      // 動畫網址
-      $1(this).attr('href')
-      // console.log('https://ani.gamer.com.tw/' + $1(this).attr('href'))
-
-      // 動畫圖片
-      $1(this).find('.lazyload').attr('src')
-      // console.log($1(this).find('.lazyload').attr('src'))
-
-      // 動畫名稱
-      $1(this).find('.anime-name p').eq(0).text()
-      // console.log($1(this).find('.anime-name p').eq(0).text())
-
-      links1.push('https://ani.gamer.com.tw/' + $1(this).attr('href'))
-    })
-    for (const link1 of links1) {
-      const response1 = await axios.get(link1)
-      $1 = cheerio.load(response1.data)
-      $1('.container-player').each(function () {
-        // 上架時間
-        $1('.anime_info_detail').find('p').text().substring(5, 100)
-
-        // 作品類型
-        $1('.data_type li').eq(0).text().substring(4, 100)
-
-        // 製作廠商
-        $1('.data_type li').eq(4).text().substring(4, 100)
-
-        // 評分
-        $1('.ACG-score').children().remove()
-        $1('.ACG-score').text()
-      })
-    }
-
-    // console.log(arr2)
+    console.log(arr)
   } catch (error) {
     console.log(error)
   }

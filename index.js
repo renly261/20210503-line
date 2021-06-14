@@ -28,7 +28,7 @@ bot.on('message', async event => {
     // 若你傳送的字是 !help-----------------------------------------------------------------------------
     if (msg === '!help') {
       const help =
-        '歡迎使用動畫瘋查詢機器人\n機器人指令=>\n☆!help:顯示幫助訊息\n☆!animed:空格後接關鍵字 搜尋\n例如:!animed 巨人\n☆!today:可以顯示今日更新的動畫\n\n動畫瘋自2021年1月1日起\n停止支援手機網頁撥放\n請下載動畫瘋 app 使用喔!\n一次搜尋的結果最多 12 筆\n請搜尋關鍵字時多加留意'
+        '歡迎使用動畫瘋查詢機器人\n機器人指令=>\n☆!help:顯示幫助訊息\n☆!anime:空格後接關鍵字 搜尋\n例如:!anime 巨人\n☆!today:可以顯示今日更新的動畫\n\n動畫瘋自2021年1月1日起\n停止支援手機網頁撥放\n請下載動畫瘋 app 使用喔!\n一次搜尋的結果最多 12 筆\n請搜尋關鍵字時多加留意'
       event.reply(help)
 
       // 若你傳送的字是 !anime 關鍵字--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ bot.on('message', async event => {
         // 使用 line flex message 的模板
         const flex = {
           type: 'flex',
-          altText: '這是 flex',
+          altText: `您搜尋:${msg} 的結果`,
           contents: {
             type: 'carousel',
             contents: []
@@ -342,7 +342,7 @@ bot.on('message', async event => {
         // 使用 line flex message 的模板
         const flex1 = {
           type: 'flex',
-          altText: '這是 flex',
+          altText: `您搜尋:${msg} 的結果`,
           contents: {
             type: 'carousel',
             contents: []
