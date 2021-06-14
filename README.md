@@ -5,7 +5,7 @@
 
 # 二. 如何使用
 
-1. !anime 欲搜尋的動畫名稱 => 顯示動畫的圖片、名稱、評分等等，若有多個動畫可以左右滑動顯示，點擊圖片即可直接連結到動畫瘋看該動畫。
+1. !anime 欲搜尋的動畫關鍵字 => 顯示動畫的圖片、名稱、評分等等，若有多個動畫可以左右滑動顯示，點擊圖片即可直接連結到動畫瘋看該動畫。
    ![image](https://raw.githubusercontent.com/renly261/20210503-line/main/images/!anime.jpg)
 2. !today => 可查詢今日更新的動畫，顯示動畫的圖片、播放時間、目前最新的集數等等，若有多個動畫一樣可以左右滑動顯示。
    ![image](https://raw.githubusercontent.com/renly261/20210503-line/main/images/!today.jpg)
